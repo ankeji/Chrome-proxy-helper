@@ -28,7 +28,7 @@ table.simpletable td:last-child {text-align: left}
 
 a.tooltip {outline:none;}
 a.tooltip strong {line-height:30px;}
-a.tooltip:hover {text-decoration:none;} 
+a.tooltip:hover {text-decoration:none;}
 a.tooltip span { z-index:10;display:none; padding:14px 20px; margin-top:-30px; margin-left:28px; width:400px; line-height:16px; }
 a.tooltip:hover span{ display:inline; position:absolute; color:#111; border:1px solid #DCA; background:#fffAF0;}
 a.tooltip span { border-radius:4px; -moz-border-radius: 4px; -webkit-border-radius: 4px; -moz-box-shadow: 5px 5px 8px #CCC; -webkit-box-shadow: 5px 5px 8px #CCC; box-shadow: 5px 5px 8px #CCC; }
@@ -41,3 +41,8 @@ a.tooltip span { border-radius:4px; -moz-border-radius: 4px; -webkit-border-radi
 .socks {display:block;margin-top:.6em;margin-left:1em;}
 .ip_label {display:inline-block;width:100px; margin-right:.2em;}
 .port_label {display:inline-block;width:44px; margin-left:.5em;}
+
+
+#api-hosts{
+    min-width: 300px;
+}

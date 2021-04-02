@@ -152,6 +152,9 @@
     "proxy_servers" : {
         "message" : "代理服务器"
     },
+    "ip_pool":{
+        "message": "IP池地址API"
+    },
     "pac_script" : {
         "message" : "Pac 脚本"
     },

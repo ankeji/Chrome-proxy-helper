@@ -99,7 +99,8 @@ function getBypass() {
 }
 function checkProxy() {
     var req = new XMLHttpRequest();
-    var url = "http://172.16.5.240:8000/ip";
+    // var url = "http://172.16.5.240:8000/ip";
+    var url = localStorage.ip_api
     req.open('GET', url, true);
     req.onreadystatechange = processResponse;
     req.send(null);

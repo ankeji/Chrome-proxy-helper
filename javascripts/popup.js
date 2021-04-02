@@ -340,7 +340,21 @@ function autoProxy() {
 chrome.proxy.onProxyError.addListener(function (details) {
     console.log(details.error);
 });
-
+function gotoPage(url) {
+    var fulurl = chrome.extension.getURL(url);
+    chrome.tabs.getAllInWindow(undefined, function (tabs) {
+        for (var i in tabs) {
+            tab = tabs[i];
+            if (tab.url == fulurl) {
+                chrome.tabs.update(tab.id, { selected: true });
+                return;
+            }
+        }
+        chrome.tabs.getSelected(null, function (tab) {
+            chrome.tabs.create({ url: url, index: tab.index + 1 });
+        });
+    });
+}
 function shuaxin() {
     var config = {
         mode: 'fixed_servers',
@@ -349,31 +363,43 @@ function shuaxin() {
         },
     };
     chrome.proxy.settings.set(
-        { value:  {
-            mode: 'direct',
-        }, scope: 'regular' },
-        function () { });
-    $.get('http://172.16.5.240:8000/ip', function (data) {
-        var myproxy = data.split(':')
-        proxyRule = 'singleProxy';
-        config['rules'][proxyRule] = {
-            scheme: 'http',
-            host: myproxy[0],
-            port: parseInt(myproxy[1])
-        };
-    
-        chrome.proxy.settings.set(
-            { value: config, scope: 'regular' },
-            function () { });
-    
-        iconSet('on');
-        proxySelected('direct-shuaxin');
-        chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
-            chrome.tabs.reload(tabs[0].id);
-          });
-        localStorage.proxyInfo = 'http';
+        {
+            value: {
+                mode: 'direct',
+            }, scope: 'regular'
+        },
+        function () {
+        });
 
-    })
+    // var url = "http://172.16.5.240:8000/ip";
+    var url = localStorage.ip_api
+    if (url) {
+        $.get(url, function (data) {
+            var myproxy = data.split(':')
+            proxyRule = 'singleProxy';
+            config['rules'][proxyRule] = {
+                scheme: 'http',
+                host: myproxy[0],
+                port: parseInt(myproxy[1])
+            };
+
+            chrome.proxy.settings.set(
+                { value: config, scope: 'regular' },
+                function () { });
+
+            iconSet('on');
+            proxySelected('direct-shuaxin');
+            chrome.tabs.query({active: true, currentWindow: true}, function(tabs) {
+                chrome.tabs.reload(tabs[0].id);
+            });
+            localStorage.proxyInfo = 'http';
+
+        })
+    }else{
+        var tipmsg = JSON.stringify('请前往设置ip池地址')
+        gotoPage('options.html');
+        alert(tipmsg)
+    }
 };
 
 
